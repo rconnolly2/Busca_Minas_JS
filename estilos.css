@@ -1,0 +1,28 @@
+body {
+    margin: 0;
+}
+
+h1 {
+    color: chocolate;
+    font-family: Helvetica, sans-serif;
+    font-style: italic;
+    text-align: center;
+}
+
+.minas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: blanchedalmond;
+    width: 800px;
+    height: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 4px dashed black;
+}
+
+.cuadrado {
+    max-width: 100%;
+    background-color: azure;
+    margin: 0;
+}
