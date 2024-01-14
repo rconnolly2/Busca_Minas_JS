@@ -1,25 +1,26 @@
 var dificultad = 1;
 var dim_tabla = [8, 8];
-var tabla = CrearTablaMinas(8, 8, 15);
+const tabla = CrearTablaMinas(8, 8, 15);
+console.log(tabla);
 
-function MinaAlrededor(index_mina, tabla) {
+function MinaAlrededor(index_mina, tabla, lista_minas) {
     let posx_alrededor_min, posy_alrededor_min;
-
+    // Iteración alrededor de la mina:
     for (let i=-1; i<=1; i++) {
         for (let j=-1; j<=1; j++) {
             posy_alrededor_min = i+index_mina[0];
             posx_alrededor_min = j+index_mina[1];
 
-            if (posy_alrededor_min == index_mina[0] && posx_alrededor_min == index_mina[1]) { // Si es la posición de la mina misma saltamos iteración
-                continue; // salto iteración
-            }
-
             if (!(posy_alrededor_min > tabla.length-1 || posy_alrededor_min < 0 || posx_alrededor_min > tabla[0].length-1 || posx_alrededor_min < 0)) { // Si la posición del iterador alrededor de la mina no se sale de la longitud de la lista
-                tabla[posy_alrededor_min][posx_alrededor_min] += 1; // añadimos +1 alrededor de las minas que no den: index out of bound error
+                // añadimos +1 alrededor de las minas que no den: index out of bound error
+                if (tabla[posy_alrededor_min][posx_alrededor_min] < 3) {
+                    tabla[posy_alrededor_min][posx_alrededor_min]++;
+                }
             }
         }
     }
 }
+
 
 function CrearTablaMinas(filas, columnas, minas) {
     // Creo una array de indices (que serán minas) por el numero de minas que me piden
@@ -55,18 +56,15 @@ function CrearTablaMinas(filas, columnas, minas) {
 
             // Itero alrededor de la mina:
             if (tabla[i][j] >= 4) { // es una mina!
-                MinaAlrededor([i, j], tabla); // Se encarga de añadir +1 alrededor de la mina
+                MinaAlrededor([i, j], tabla, lista_minas); // Se encarga de añadir +1 alrededor de la mina
             }
 
         }
     }
 
-    return tabla;
+    return tabla; // devuelvo tabla acabada
   }
-  
-  
-console.log(tabla);
-  
+
 
 function crear_tabla(id_div_contenedor) {
     let div_minas = document.getElementById(id_div_contenedor);
