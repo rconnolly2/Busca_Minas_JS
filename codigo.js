@@ -13,7 +13,7 @@ function MinaAlrededor(index_mina, tabla, lista_minas) {
 
             if (!(posy_alrededor_min > tabla.length-1 || posy_alrededor_min < 0 || posx_alrededor_min > tabla[0].length-1 || posx_alrededor_min < 0)) { // Si la posición del iterador alrededor de la mina no se sale de la longitud de la lista
                 // añadimos +1 alrededor de las minas que no den: index out of bound error
-                if (tabla[posy_alrededor_min][posx_alrededor_min] < 3) {
+                if (tabla[posy_alrededor_min][posx_alrededor_min] < 9) {
                     tabla[posy_alrededor_min][posx_alrededor_min]++;
                 }
             }
@@ -42,7 +42,7 @@ function CrearTablaMinas(filas, columnas, minas) {
             });
 
             if (exista_mina) { // si existe mina lo represento con un 4
-                tabla[i].push(4);
+                tabla[i].push(9);
             } else {  // si no lo represento con un 0
                 tabla[i].push(0);
             }
@@ -55,7 +55,7 @@ function CrearTablaMinas(filas, columnas, minas) {
         for (let j=0; j<=tabla.length-1; j++) {
 
             // Itero alrededor de la mina:
-            if (tabla[i][j] >= 4) { // es una mina!
+            if (tabla[i][j] >= 9) { // es una mina!
                 MinaAlrededor([i, j], tabla, lista_minas); // Se encarga de añadir +1 alrededor de la mina
             }
 
@@ -84,8 +84,12 @@ function crear_tabla(id_div_contenedor) {
                 case 3:
                     img_cuadrado = "3_lightblue.png";
                     break;
-                default:
+                case 9:
                     img_cuadrado = "mina_lightblue.png";
+                    break;
+                default:
+                    img_cuadrado = "3_lightblue.png";
+
             }
 
             if (tabla[i][j] == tabla[i].length-1) { // Si es el ultimo numero de la columna, pintar y añadir un br
