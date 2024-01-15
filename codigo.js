@@ -8,8 +8,6 @@ CrearTablaVacia("div_minas");
 /**
  * Añade valores alrededor de una mina en la tabla.
  * Utilizado durante la creación de la tabla de minas.
- * @param {Array.<number>} index_mina - Coordenadas [fila, columna] de la mina.
- * @param {Array.<Array.<number>>} tabla - Tabla de minas.
  */
 function MinaAlrededor(index_mina, tabla) {
     let posx_alrededor_min, posy_alrededor_min;
@@ -31,10 +29,6 @@ function MinaAlrededor(index_mina, tabla) {
 
 /**
  * Crea una tabla de minas con las dimensiones y minas especificadas.
- * @param {number} filas - Número de filas de la tabla.
- * @param {number} columnas - Número de columnas de la tabla.
- * @param {number} minas_necesarias - Número de minas que se deben colocar en la tabla.
- * @returns {Array.<Array.<number>>} La tabla creada.
  */
 function CrearTablaMinas(filas, columnas, minas_necesarias) {
     // Creo una array de indices (que serán minas) por el numero de minas que me piden
@@ -80,8 +74,6 @@ function CrearTablaMinas(filas, columnas, minas_necesarias) {
 
 /**
  * Verifica si un número es par.
- * @param {number} n - Número a verificar.
- * @returns {boolean} True si el número es par, false en caso contrario.
  */
 function EsPar(n) {
     return n%2 == 0;
@@ -116,6 +108,7 @@ function IniciarJuego() {
     div_minas.innerHTML = ""; // elimino todas las img dentro del div padre
     // Creo la tabla
     tabla = CrearTablaMinas(n_col, n_col, n_minas);
+    console.log(tabla);
     // Pinto la tabla vacía
     CrearTablaVacia("div_minas");
 
@@ -123,7 +116,6 @@ function IniciarJuego() {
 
 /**
  * Crea una tabla vacía en el contenedor especificado.
- * @param {string} id_div_contenedor - ID del contenedor donde se creará la tabla.
  */
 function CrearTablaVacia(id_div_contenedor) {
     let div_minas = document.getElementById(id_div_contenedor);
@@ -145,9 +137,6 @@ function CrearTablaVacia(id_div_contenedor) {
 
 /**
  * Verifica si dos listas son iguales, independientemente del orden de los elementos.
- * @param {Array} lista1 - Primera lista a comparar.
- * @param {Array} lista2 - Segunda lista a comparar.
- * @returns {boolean} True si las listas son iguales, false en caso contrario.
  */
 function SonListasIguales(lista1, lista2) {
     let lista1_ord, lista2_ord;
@@ -225,7 +214,6 @@ function PierdesPartida() {
 
 /**
  * Maneja el clic en un cuadrado de la tabla.
- * @param {HTMLImageElement} elemento_html - Elemento de imagen que representa el cuadrado clicado.
  */
 function ClickCuadrado(elemento_html) {
     let index_cuadrado = elemento_html.getAttribute('index').split(", "); // Consigo el atributo index y divido el string en una lista
@@ -266,7 +254,7 @@ function ClickCuadrado(elemento_html) {
         if (!EsPar(i-j)) { // si la posición actual del iterador no es par:
             img_cuadrado = img_cuadrado.replace("lightblue", "darkblue"); // cambia la imagen a la version azul oscuro
         } // si i-j no es par cambio a fondo oscuro (?) no se porque falla
-        elemento_html.src = "../img/" + img_cuadrado;
+        elemento_html.src = "./img/" + img_cuadrado;
         elemento_html.classList.add("flip_individual");
 
     }
