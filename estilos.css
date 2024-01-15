@@ -13,7 +13,7 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    background-color: blanchedalmond;
+    background-color: #57c3fc;
     width: 800px;
     height: 800px;
     margin-left: auto;
@@ -23,6 +23,26 @@ h1 {
 
 .cuadrado {
     max-width: 100%;
-    background-color: azure;
+    background-color: #57c3fc;
     margin: 0;
+}
+
+.flipping {
+    animation: animacion_flip 0.7s ease-in-out;
+}
+
+.flip_individual {
+    animation: animacion_flip 0.7s ease-in-out;
+}
+
+@keyframes animacion_flip {
+    0% {
+      transform: perspective(400px) rotateY(0);
+    }
+    50% {
+      transform: perspective(400px) rotateY(180deg);
+    }
+    100% {
+      transform: perspective(400px) rotateY(0);
+    }
 }
