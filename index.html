@@ -8,12 +8,18 @@
 </head>
 <body>
     <h1>Busca Minas JS - Lenguaje de marcas</h1>
+    <div class="menu">
+        <label id="info_user">Puntuación: 0</label>
+        <label class="label_inputs" for="num_minas">Numero de minas: </label>
+        <input class="input_num" type="number" id="num_minas">
+        <label class="label_inputs" for="dimensiones-tabla">Numero cuadrados ancho x alto: </label>
+        <input class="input_num" type="number" id="dimensiones-tabla">
+        <input type="button" value="Crear tabla" onclick='CrearTablaVacia("div_minas")'>
+    </div>
 
     <div class="minas" id="div_minas">
-
     </div>
     <br>
-    <input type="button" value="Crear tabla" onclick='crear_tabla("div_minas")'>
 
     <script src="codigo.js"></script>
 </body>

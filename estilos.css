@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    background-color: #deffa1;
 }
 
 h1 {
@@ -9,15 +10,53 @@ h1 {
     text-align: center;
 }
 
+label {
+    display: block;
+    text-align: center;
+    font-size: 30px;
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+input {
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Helvetica, sans-serif;
+}
+
+.input_num {
+    width: 40px;
+    background-color: rgb(255, 197, 91);
+    font-size: 20px;
+}
+
+input[type="button"] {
+    background-color: rgb(221, 174, 86);
+    border-radius: 5px;
+    font-size: 30px;
+}
+
+.label_inputs {
+    color: chocolate;
+}
+
+#info_user {
+    color: green;
+}
+
 .minas {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     background-color: #57c3fc;
-    width: 800px;
-    height: 800px;
+    width: 1500px;
+    height: 1500px;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 40px;
     border: 4px dashed black;
 }
 

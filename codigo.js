@@ -1,7 +1,7 @@
 var dificultad = 1;
 var dim_tabla = [8, 8];
 var lista_minas = [];
-const tabla = CrearTablaMinas(8, 8, 15);
+const tabla = CrearTablaMinas(15, 15, 30);
 var juego_on = true;
 console.log(tabla);
 
@@ -24,14 +24,13 @@ function MinaAlrededor(index_mina, tabla) {
 }
 
 
-function CrearTablaMinas(filas, columnas, minas) {
+function CrearTablaMinas(filas, columnas, minas_necesarias) {
     // Creo una array de indices (que serán minas) por el numero de minas que me piden
     let tabla = []; // tabla final
-    let minas_necesarias = minas;
     while (minas_necesarias!=0) {
-        // crea minas
-        lista_minas.push([Math.floor(Math.random() * filas), Math.floor(Math.random() * columnas)]);
         minas_necesarias--;
+        // crea minas aleatorias
+        lista_minas.push([Math.floor(Math.random() * filas), Math.floor(Math.random() * columnas)]);
     }
 
     // Ahora creo la tabla de ceros y minas
@@ -72,7 +71,7 @@ function EsPar(n) {
 }
 
 
-function crear_tabla(id_div_contenedor) {
+function CrearTablaVacia(id_div_contenedor) {
     let div_minas = document.getElementById(id_div_contenedor);
     for (let i=0; i<=tabla.length-1; i++) {
         for (let j=0; j<=tabla[i].length-1; j++) {
@@ -85,7 +84,7 @@ function crear_tabla(id_div_contenedor) {
                 img_cuadrado = "darkblue.png";
             }
 
-            div_minas.innerHTML += `<img class="cuadrado" id="cuadrado" index="${i}, ${j}" src="./img/${img_cuadrado}" onclick="click_cuadrado(this)">`;
+            div_minas.innerHTML += `<img class="cuadrado" id="cuadrado" index="${i}, ${j}" src="./img/${img_cuadrado}" onclick="ClickCuadrado(this)">`;
         }
     }
 }
@@ -109,6 +108,11 @@ function SonListasIguales(lista1, lista2) {
 
 function PierdesPartida() {
     let div_minas = document.getElementById("div_minas");
+    let lista_elem_minas = document.querySelectorAll("img");
+
+    for (mina of lista_elem_minas) {
+        mina.removeAttribute('onclick'); // elimino el atributo onclick de todos las img
+    }
 
     for (let i=0; i<=tabla.length-1; i++) {
         for (let j=0; j<=tabla.length-1; j++) {
@@ -151,7 +155,7 @@ function PierdesPartida() {
     }
 }
 
-function click_cuadrado(elemento_html) {
+function ClickCuadrado(elemento_html) {
     let index_cuadrado = elemento_html.getAttribute('index').split(", "); // Consigo el atributo index y divido el string en una lista
     let i = index_cuadrado[0], j = index_cuadrado[1];
     if (tabla[i][j] == 9) {
