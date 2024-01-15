@@ -1,6 +1,7 @@
 var lista_minas = [];
-var tabla = [];
-console.log(tabla);
+var puntuacion = 0;
+var tabla = CrearTablaMinas(8, 8, 10);
+CrearTablaVacia("div_minas");
 
 function MinaAlrededor(index_mina, tabla) {
     let posx_alrededor_min, posy_alrededor_min;
@@ -71,6 +72,14 @@ function IniciarJuego() {
     let n_minas = Number(document.getElementById("num_minas").value);
     let n_col = Number(document.getElementById("dimensiones-tabla").value);
     let div_minas = document.getElementById("div_minas");
+    let info_usuario = document.getElementById("info_user");
+    
+    // Cambio el label de perdido a => puntuación: 0
+    if (info_usuario.innerHTML=="¡Has perdido!") {
+        info_usuario.innerHTML=`Puntuación: ${puntuacion}`;
+        info_usuario.style.color = "green"; // cambio texto a color verde
+    }
+
     // Me aseguro que pone como mínimo 1 mina y como mínimo 3 columnas sino pongo mis valores por defecto
     if (n_minas>1 && n_col>=3) {
         div_minas.style.width = (n_col*100) + "px"; // cambio ancho div contenedor minas al nuevo ancho
@@ -124,6 +133,11 @@ function SonListasIguales(lista1, lista2) {
 function PierdesPartida() {
     let div_minas = document.getElementById("div_minas");
     let lista_elem_minas = document.querySelectorAll("img");
+    let info_usuario = document.getElementById("info_user");
+
+    // Cambio el label de información usuario a has perdido !
+    info_usuario.innerHTML="¡Has perdido!";
+    info_usuario.style.color = "red"; // cambio texto a color rojo
 
     for (mina of lista_elem_minas) {
         mina.removeAttribute('onclick'); // elimino el atributo onclick de todos las img
@@ -172,11 +186,15 @@ function PierdesPartida() {
 
 function ClickCuadrado(elemento_html) {
     let index_cuadrado = elemento_html.getAttribute('index').split(", "); // Consigo el atributo index y divido el string en una lista
+    let info_usuario = document.getElementById("info_user");
     let i = index_cuadrado[0], j = index_cuadrado[1];
-    if (tabla[i][j] == 9) {
-        console.log("Es mina!");
-        PierdesPartida();
+    
+    if (tabla[i][j] == 9) { // Si el valor clickado es = 9 es una mina !
+        PierdesPartida(); 
     } else {
+        // Añado puntuación+1 y actualizo puntuación por pantalla
+        puntuacion++;
+        info_usuario.innerHTML=`Puntuación: ${puntuacion}`;
         let img_cuadrado;
         switch (tabla[i][j]) {
             case 0:
@@ -197,7 +215,7 @@ function ClickCuadrado(elemento_html) {
             default:
                 img_cuadrado = "3_lightblue.png";
         }
-        console.log(i, j)
+
         if (!EsPar(i-j)) { // si la posición actual del iterador no es par:
             img_cuadrado = img_cuadrado.replace("lightblue", "darkblue"); // cambia la imagen a la version azul oscuro
         } // si i-j no es par cambio a fondo oscuro (?) no se porque falla
