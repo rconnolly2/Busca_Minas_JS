@@ -30,13 +30,16 @@ input {
 .input_num {
     width: 40px;
     background-color: rgb(255, 197, 91);
+    border-radius: 5px;
     font-size: 20px;
+    font-weight: bold;
 }
 
 input[type="button"] {
     background-color: rgb(221, 174, 86);
     border-radius: 5px;
     font-size: 30px;
+    font-weight: bold;
 }
 
 .label_inputs {
@@ -52,8 +55,8 @@ input[type="button"] {
     flex-wrap: wrap;
     align-items: center;
     background-color: #57c3fc;
-    width: 1500px;
-    height: 1500px;
+    width: 800px;
+    height: 800px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 40px;

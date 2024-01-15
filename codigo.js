@@ -1,8 +1,5 @@
-var dificultad = 1;
-var dim_tabla = [8, 8];
 var lista_minas = [];
-const tabla = CrearTablaMinas(15, 15, 30);
-var juego_on = true;
+var tabla = [];
 console.log(tabla);
 
 function MinaAlrededor(index_mina, tabla) {
@@ -68,6 +65,24 @@ function CrearTablaMinas(filas, columnas, minas_necesarias) {
 
 function EsPar(n) {
     return n%2 == 0;
+}
+
+function IniciarJuego() {
+    let n_minas = Number(document.getElementById("num_minas").value);
+    let n_col = Number(document.getElementById("dimensiones-tabla").value);
+    let div_minas = document.getElementById("div_minas");
+    // Me aseguro que pone como mínimo 1 mina y como mínimo 3 columnas sino pongo mis valores por defecto
+    if (n_minas>1 && n_col>=3) {
+        div_minas.style.width = (n_col*100) + "px"; // cambio ancho div contenedor minas al nuevo ancho
+    } else {
+        n_col = 8, n_minas = 10;
+    }
+    div_minas.innerHTML = ""; // elimino todas las img dentro del div padre
+    // Creo la tabla
+    tabla = CrearTablaMinas(n_col, n_col, n_minas);
+    // Pinto la tabla vacía
+    CrearTablaVacia("div_minas");
+
 }
 
 
