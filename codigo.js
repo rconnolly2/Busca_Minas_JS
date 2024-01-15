@@ -1,8 +1,16 @@
 var lista_minas = [];
+var n_minas = 10;
+var n_col = 8;
 var puntuacion = 0;
-var tabla = CrearTablaMinas(8, 8, 10);
+var tabla = CrearTablaMinas(n_col, n_col, n_minas);
 CrearTablaVacia("div_minas");
 
+/**
+ * Añade valores alrededor de una mina en la tabla.
+ * Utilizado durante la creación de la tabla de minas.
+ * @param {Array.<number>} index_mina - Coordenadas [fila, columna] de la mina.
+ * @param {Array.<Array.<number>>} tabla - Tabla de minas.
+ */
 function MinaAlrededor(index_mina, tabla) {
     let posx_alrededor_min, posy_alrededor_min;
     // Iteración alrededor de la mina:
@@ -21,10 +29,17 @@ function MinaAlrededor(index_mina, tabla) {
     }
 }
 
-
+/**
+ * Crea una tabla de minas con las dimensiones y minas especificadas.
+ * @param {number} filas - Número de filas de la tabla.
+ * @param {number} columnas - Número de columnas de la tabla.
+ * @param {number} minas_necesarias - Número de minas que se deben colocar en la tabla.
+ * @returns {Array.<Array.<number>>} La tabla creada.
+ */
 function CrearTablaMinas(filas, columnas, minas_necesarias) {
     // Creo una array de indices (que serán minas) por el numero de minas que me piden
     let tabla = []; // tabla final
+    lista_minas = []; // vació lista minas
     while (minas_necesarias!=0) {
         minas_necesarias--;
         // crea minas aleatorias
@@ -63,16 +78,24 @@ function CrearTablaMinas(filas, columnas, minas_necesarias) {
     return tabla; // devuelvo tabla acabada
   }
 
-
+/**
+ * Verifica si un número es par.
+ * @param {number} n - Número a verificar.
+ * @returns {boolean} True si el número es par, false en caso contrario.
+ */
 function EsPar(n) {
     return n%2 == 0;
 }
 
+/**
+ * Inicializa el juego con valores proporcionados por el usuario o valores predeterminados.
+ */
 function IniciarJuego() {
-    let n_minas = Number(document.getElementById("num_minas").value);
-    let n_col = Number(document.getElementById("dimensiones-tabla").value);
+    let input_nminas = Number(document.getElementById("num_minas").value);
+    let input_ncols = Number(document.getElementById("dimensiones-tabla").value);
     let div_minas = document.getElementById("div_minas");
     let info_usuario = document.getElementById("info_user");
+    puntuacion = 0;
     
     // Cambio el label de perdido a => puntuación: 0
     if (info_usuario.innerHTML=="¡Has perdido!") {
@@ -81,11 +104,15 @@ function IniciarJuego() {
     }
 
     // Me aseguro que pone como mínimo 1 mina y como mínimo 3 columnas sino pongo mis valores por defecto
-    if (n_minas>1 && n_col>=3) {
+    if (input_nminas>1 && input_ncols>=3) {
+        n_minas = input_nminas, n_col = input_ncols;
         div_minas.style.width = (n_col*100) + "px"; // cambio ancho div contenedor minas al nuevo ancho
     } else {
-        n_col = 8, n_minas = 10;
+        n_minas = 10;
+        n_col = 8; // VALORES POR DEFECTO
+        div_minas.style.width = (n_col*100) + "px"; // cambio ancho div contenedor
     }
+
     div_minas.innerHTML = ""; // elimino todas las img dentro del div padre
     // Creo la tabla
     tabla = CrearTablaMinas(n_col, n_col, n_minas);
@@ -94,7 +121,10 @@ function IniciarJuego() {
 
 }
 
-
+/**
+ * Crea una tabla vacía en el contenedor especificado.
+ * @param {string} id_div_contenedor - ID del contenedor donde se creará la tabla.
+ */
 function CrearTablaVacia(id_div_contenedor) {
     let div_minas = document.getElementById(id_div_contenedor);
     for (let i=0; i<=tabla.length-1; i++) {
@@ -113,6 +143,12 @@ function CrearTablaVacia(id_div_contenedor) {
     }
 }
 
+/**
+ * Verifica si dos listas son iguales, independientemente del orden de los elementos.
+ * @param {Array} lista1 - Primera lista a comparar.
+ * @param {Array} lista2 - Segunda lista a comparar.
+ * @returns {boolean} True si las listas son iguales, false en caso contrario.
+ */
 function SonListasIguales(lista1, lista2) {
     let lista1_ord, lista2_ord;
     if (lista1.length !== lista2.length) {
@@ -130,6 +166,9 @@ function SonListasIguales(lista1, lista2) {
     return true;
 }
 
+/**
+ * Muestra la pantalla de pérdida de partida y revela todas las minas.
+ */
 function PierdesPartida() {
     let div_minas = document.getElementById("div_minas");
     let lista_elem_minas = document.querySelectorAll("img");
@@ -184,18 +223,26 @@ function PierdesPartida() {
     }
 }
 
+/**
+ * Maneja el clic en un cuadrado de la tabla.
+ * @param {HTMLImageElement} elemento_html - Elemento de imagen que representa el cuadrado clicado.
+ */
 function ClickCuadrado(elemento_html) {
     let index_cuadrado = elemento_html.getAttribute('index').split(", "); // Consigo el atributo index y divido el string en una lista
     let info_usuario = document.getElementById("info_user");
     let i = index_cuadrado[0], j = index_cuadrado[1];
-    
+    let img_cuadrado;
     if (tabla[i][j] == 9) { // Si el valor clickado es = 9 es una mina !
         PierdesPartida(); 
     } else {
         // Añado puntuación+1 y actualizo puntuación por pantalla
         puntuacion++;
-        info_usuario.innerHTML=`Puntuación: ${puntuacion}`;
-        let img_cuadrado;
+        if (puntuacion==(n_col*n_col)-n_minas) { // Si la puntuación es igual a el numero de cuadrados - numero de minas
+            info_usuario.innerHTML= "¡Has ganado!" // Ganas!
+        } else {
+            info_usuario.innerHTML=`Puntuación: ${puntuacion}`;
+        }
+
         switch (tabla[i][j]) {
             case 0:
                 img_cuadrado = "lightblue.png";
