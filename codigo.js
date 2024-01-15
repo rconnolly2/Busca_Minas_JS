@@ -5,7 +5,7 @@ const tabla = CrearTablaMinas(8, 8, 15);
 var juego_on = true;
 console.log(tabla);
 
-function MinaAlrededor(index_mina, tabla, lista_minas) {
+function MinaAlrededor(index_mina, tabla) {
     let posx_alrededor_min, posy_alrededor_min;
     // Iteración alrededor de la mina:
     for (let i=-1; i<=1; i++) {
@@ -57,7 +57,7 @@ function CrearTablaMinas(filas, columnas, minas) {
 
             // Itero alrededor de la mina:
             if (tabla[i][j] >= 9) { // es una mina!
-                MinaAlrededor([i, j], tabla, lista_minas); // Se encarga de añadir +1 alrededor de la mina
+                MinaAlrededor([i, j], tabla); // Se encarga de añadir +1 alrededor de la mina
             }
 
         }
@@ -153,13 +153,13 @@ function PierdesPartida() {
 
 function click_cuadrado(elemento_html) {
     let index_cuadrado = elemento_html.getAttribute('index').split(", "); // Consigo el atributo index y divido el string en una lista
-
-    if (tabla[index_cuadrado[0]][index_cuadrado[1]] == 9) {
+    let i = index_cuadrado[0], j = index_cuadrado[1];
+    if (tabla[i][j] == 9) {
         console.log("Es mina!");
         PierdesPartida();
     } else {
         let img_cuadrado;
-        switch (tabla[index_cuadrado[0]][index_cuadrado[1]]) {
+        switch (tabla[i][j]) {
             case 0:
                 img_cuadrado = "lightblue.png";
                 break;
@@ -178,6 +178,10 @@ function click_cuadrado(elemento_html) {
             default:
                 img_cuadrado = "3_lightblue.png";
         }
+        console.log(i, j)
+        if (!EsPar(i-j)) { // si la posición actual del iterador no es par:
+            img_cuadrado = img_cuadrado.replace("lightblue", "darkblue"); // cambia la imagen a la version azul oscuro
+        } // si i-j no es par cambio a fondo oscuro (?) no se porque falla
         elemento_html.src = "../img/" + img_cuadrado;
         elemento_html.classList.add("flip_individual");
 

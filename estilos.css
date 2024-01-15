@@ -27,10 +27,6 @@ h1 {
     margin: 0;
 }
 
-.flipping {
-    animation: animacion_flip 0.7s ease-in-out;
-}
-
 .flip_individual {
     animation: animacion_flip 0.7s ease-in-out;
 }
